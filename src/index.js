@@ -3,7 +3,36 @@
  * true, если есть различие, false. То есть проверяет каждое свойство, вне зависимости от вложенности,
  * делаем через рекурсию(а других вариантов и нет)
  */
-export const deepEqual = (obj, anotherObject) => {};
+export const deepEqual = (obj, anotherObject) => {
+    let objFirst = Object.entries(obj);
+    let objAnother = Object.entries(anotherObject);
+
+    if (obj === null || anotherObject === null) {
+        return false;
+    }
+
+    if (obj === undefined || anotherObject === undefined) {
+        return false;
+    }
+
+    if (typeof obj !== typeof anotherObject) {
+        return false;
+    }
+
+    if (objFirst.length !== objAnother.length) {
+        return false;
+    }
+
+    return objFirst.every(([key, value], index) => {
+        if (typeof value === 'object') {
+            return deepEqual(value, objAnother[index][1])
+        } else if (key === objAnother[index][0] && value === objAnother[index][1]) {
+            return true;
+        } else {
+            return false
+        }
+    })
+};
 
 /**
  * Принимает объект, возвращает его глубокую копию, то есть ни одно свойство
@@ -18,4 +47,7 @@ export const deepCopy = (obj) => {};
  * Мы передаем объект, и должны вернуть массив уникальных названий свойств
  * То есть если у нас объект { name: { bohdan: { name: 'test' } } } вернет ['name', 'bohdan']
  */
-export const getAllObjectKeys = (obj) => {};
+export const getAllObjectKeys = (obj) => {
+    let arr = [];
+    
+};
